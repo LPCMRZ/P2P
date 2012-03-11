@@ -437,8 +437,9 @@ class NapsterClient(object):
             #nel senso: devo mettere un contatore nell'upload che mi tiene il conto dei file che uploado
             #e poi andarlo a confrontare con questo?
 
-            if num_delete != self.num_upload :
-                print "Warning: The number of copies deleted differs from those uploaded \n"
+            #TODO: verificare questa soluzione: occorre istanziare la variabile num_upload che si incrementa ad ogni upload andato a buon fine
+            #if num_delete != self.num_upload :
+            #    print "Warning: The number of copies deleted differs from those uploaded \n"
 
             self.dir_socket.close() #chiudo la socket verso la directory
 
