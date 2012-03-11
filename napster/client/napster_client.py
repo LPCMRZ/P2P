@@ -22,6 +22,7 @@ class NapsterClient(object):
 
         self.logged = False #non sono loggato
         self.stop = False #non voglio uscire subito dal programma
+    # end of __init__ method
 
 
     def md5_for_file(self,fileName):
@@ -37,6 +38,7 @@ class NapsterClient(object):
             md5.update(data)
         print md5.digest()
         return md5.digest()
+    # end of md5_for_file method
 
 
 
@@ -95,13 +97,23 @@ class NapsterClient(object):
         else :
             print "KO, ack parsing failed\n"
             self.logged=False #non sono loggato
+    # end of login method
 
 
     def nologin(self):
         print "You're about to exit the program... Bye!\n"
         self.stop = True
+    # end of nologin method
 
-
+    def checkfile(self, filename): #routine di controllo esistenza del file
+        try :
+            f = open(filename)
+            f.close()
+        except IOError :
+            print "Peer can't verify file presence"
+        except Exception:
+            print "Unexpected error:", sys.exc_info()[0]
+    # end of checkfile method
 
     def addfile(self):
         print "Add file...\n"
@@ -115,7 +127,7 @@ class NapsterClient(object):
         print "Filename in format '%100s': " + filename_form
 
         #TODO: controllare se il file esiste veramente
-        #direi che basterebbe fare una open e vedere se va a buon fine
+        self.checkfile(filename) #soluzione proposta da maury
 
         # SPEDISCO IL PACCHETTO
         self.dir_socket.send("ADDF" + self.session_ID + md5file + filename_form)
@@ -140,7 +152,7 @@ class NapsterClient(object):
         else :
             print "KO, ack parsing failed\n"
             print "Adding file failed!\n"
-
+    # end of addfile method
 
 
 
@@ -175,6 +187,7 @@ class NapsterClient(object):
         else :
             print "KO, ack parsing failed\n"
             print "Removing file failed\n"
+    # end of delfile method
 
     def find(self):
         print "Find...\n"
@@ -271,7 +284,7 @@ class NapsterClient(object):
         else:
 
             print "KO, ack parsing failed\n"
-
+    # end of find method
 
 
     def download(self):
@@ -399,7 +412,7 @@ class NapsterClient(object):
                 else:
                     print "KO, ack parsing failed\n"
                     print "download non puo' avvenire"
-
+    # end of download method
 
 
 
@@ -432,14 +445,14 @@ class NapsterClient(object):
         else :
             print "KO, ack parsing failed\n"
             self.logged=True #sono ancora loggato
-
+    # end of logout method
 
 
 
 
     def error(self):
         print "Option not valid: try again!\n"
-
+    # end of error method
 
 
     def doYourStuff(self):
@@ -483,7 +496,7 @@ class NapsterClient(object):
         else: #sono loggato
 
             optLog.get(choice,self.error)() #se l'utente ha digitato un qualcosa che non esiste, viene chiamata error()
-
+    # end of doYourStuff method
 
 
 
